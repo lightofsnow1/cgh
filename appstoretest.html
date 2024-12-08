@@ -45,6 +45,24 @@
             margin: 5px;
             border-radius: 8px;
         }
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .bottom-bar div {
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+        }
+        .bottom-bar div:hover {
+            background-color: #444;
+        }
     </style>
 </head>
 <body>
@@ -53,6 +71,11 @@
         <input type="text" id="search" placeholder="Search for an app..." oninput="filterApps()">
     </div>
     <div id="app-container"></div>
+
+    <div class="bottom-bar">
+        <div onclick="scrollToSection('app-container')">Apps</div>
+        <div onclick="alert('News section is under construction!')">News</div>
+    </div>
 
     <script>
         let apps = [];
@@ -103,7 +126,13 @@
             const filteredApps = apps.filter(app => app.name.toLowerCase().includes(query) || app.subtitle.toLowerCase().includes(query));
             displayApps(filteredApps);
         }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     </script>
 </body>
 </html>
-
