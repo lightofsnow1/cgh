@@ -11,6 +11,17 @@
             margin: 0;
             padding: 0;
         }
+        .search-bar {
+            margin: 20px;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
         .app {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -38,9 +49,14 @@
 </head>
 <body>
     <h1>Connie's Library</h1>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search for an app..." oninput="filterApps()">
+    </div>
     <div id="app-container"></div>
 
     <script>
+        let apps = [];
+
         // Fetch and display the apps from the JSON file
         fetch('connielibary.json')
             .then(response => {
@@ -50,31 +66,43 @@
                 return response.json();
             })
             .then(data => {
-                const appContainer = document.getElementById('app-container');
-
-                data.apps.forEach(app => {
-                    const appDiv = document.createElement('div');
-                    appDiv.classList.add('app');
-
-                    appDiv.innerHTML = `
-                        <img src="${app.iconURL}" alt="${app.name} Icon">
-                        <h2>${app.name}</h2>
-                        <p><strong>Subtitle:</strong> ${app.subtitle}</p>
-                        <p><strong>Version:</strong> ${app.version} (Updated: ${new Date(app.versionDate).toLocaleDateString()})</p>
-                        <p><strong>Description:</strong> ${app.localizedDescription}</p>
-                        <a href="${app.downloadURL}" target="_blank">Download</a>
-                        <div class="screenshots">
-                            <h3>Screenshots:</h3>
-                            ${app.screenshotURLs.map(url => `<img src="${url}" alt="Screenshot">`).join('')}
-                        </div>
-                    `;
-
-                    appContainer.appendChild(appDiv);
-                });
+                apps = data.apps;
+                displayApps(apps);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
+
+        function displayApps(appsToDisplay) {
+            const appContainer = document.getElementById('app-container');
+            appContainer.innerHTML = '';
+
+            appsToDisplay.forEach(app => {
+                const appDiv = document.createElement('div');
+                appDiv.classList.add('app');
+
+                appDiv.innerHTML = `
+                    <img src="${app.iconURL}" alt="${app.name} Icon">
+                    <h2>${app.name}</h2>
+                    <p><strong>Subtitle:</strong> ${app.subtitle}</p>
+                    <p><strong>Version:</strong> ${app.version} (Updated: ${new Date(app.versionDate).toLocaleDateString()})</p>
+                    <p><strong>Description:</strong> ${app.localizedDescription}</p>
+                    <a href="${app.downloadURL}" target="_blank">Download</a>
+                    <div class="screenshots">
+                        <h3>Screenshots:</h3>
+                        ${app.screenshotURLs.map(url => `<img src="${url}" alt="Screenshot">`).join('')}
+                    </div>
+                `;
+
+                appContainer.appendChild(appDiv);
+            });
+        }
+
+        function filterApps() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filteredApps = apps.filter(app => app.name.toLowerCase().includes(query) || app.subtitle.toLowerCase().includes(query));
+            displayApps(filteredApps);
+        }
     </script>
 </body>
 </html>
