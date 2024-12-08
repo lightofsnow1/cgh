@@ -22,7 +22,7 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
-        .app {
+        .app, .news {
             border: 1px solid #ccc;
             border-radius: 8px;
             margin: 20px;
@@ -30,14 +30,14 @@
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .app img {
+        .app img, .news img {
             max-width: 100px;
             border-radius: 8px;
         }
-        .app h2 {
+        .app h2, .news h2 {
             margin: 0 0 10px;
         }
-        .app p {
+        .app p, .news p {
             margin: 5px 0;
         }
         .screenshots img {
@@ -71,16 +71,18 @@
         <input type="text" id="search" placeholder="Search for an app..." oninput="filterApps()">
     </div>
     <div id="app-container"></div>
+    <div id="news-container" style="display: none;"></div>
 
     <div class="bottom-bar">
-        <div onclick="scrollToSection('app-container')">Apps</div>
-        <div onclick="alert('News section is under construction!')">News</div>
+        <div onclick="showApps()">Apps</div>
+        <div onclick="showNews()">News</div>
     </div>
 
     <script>
         let apps = [];
+        let news = [];
 
-        // Fetch and display the apps from the JSON file
+        // Fetch and display the apps and news from the JSON file
         fetch('connielibary.json')
             .then(response => {
                 if (!response.ok) {
@@ -90,6 +92,7 @@
             })
             .then(data => {
                 apps = data.apps;
+                news = data.news;
                 displayApps(apps);
             })
             .catch(error => {
@@ -99,6 +102,8 @@
         function displayApps(appsToDisplay) {
             const appContainer = document.getElementById('app-container');
             appContainer.innerHTML = '';
+            appContainer.style.display = 'block';
+            document.getElementById('news-container').style.display = 'none';
 
             appsToDisplay.forEach(app => {
                 const appDiv = document.createElement('div');
@@ -121,17 +126,39 @@
             });
         }
 
+        function displayNews() {
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = '';
+            newsContainer.style.display = 'block';
+            document.getElementById('app-container').style.display = 'none';
+
+            news.forEach(item => {
+                const newsDiv = document.createElement('div');
+                newsDiv.classList.add('news');
+
+                newsDiv.innerHTML = `
+                    <img src="${item.imageURL}" alt="${item.title} Image">
+                    <h2>${item.title}</h2>
+                    <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()}</p>
+                    <p><strong>Caption:</strong> ${item.caption}</p>
+                `;
+
+                newsContainer.appendChild(newsDiv);
+            });
+        }
+
         function filterApps() {
             const query = document.getElementById('search').value.toLowerCase();
             const filteredApps = apps.filter(app => app.name.toLowerCase().includes(query) || app.subtitle.toLowerCase().includes(query));
             displayApps(filteredApps);
         }
 
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+        function showApps() {
+            displayApps(apps);
+        }
+
+        function showNews() {
+            displayNews();
         }
     </script>
 </body>
