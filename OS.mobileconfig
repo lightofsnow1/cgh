@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>PayloadContent</key>
+		<array>
+			<dict>
+				<key>FullScreen</key>
+				<true />
+				<key>Label</key>
+				<string>PCOS</string>
+				<key>PayloadDisplayName</key>
+				<string>Web Clip #1</string>
+				<key>PayloadIdentifier</key>
+				<string>com.apple.webClip.managed.83c0fd19-f323-475a-9cc8-f5c6251045ff</string>
+				<key>PayloadType</key>
+				<string>com.apple.webClip.managed</string>
+				<key>PayloadUUID</key>
+				<string>83c0fd19-f323-475a-9cc8-f5c6251045ff</string>
+				<key>PayloadVersion</key>
+				<integer>1</integer>
+				<key>URL</key>
+				<string>https://guttural-kindly-loan.glitch.me/</string>
+			</dict>
+		</array>
+		<key>PayloadDisplayName</key>
+		<string>OS</string>
+		<key>PayloadIdentifier</key>
+		<string>DESKTOP-UGE14QK.df6aa4f1-44b8-4bf6-b54f-0a5411e5ec9e</string>
+		<key>PayloadType</key>
+		<string>Configuration</string>
+		<key>PayloadUUID</key>
+		<string>df6aa4f1-44b8-4bf6-b54f-0a5411e5ec9e</string>
+		<key>PayloadVersion</key>
+		<integer>1</integer>
+	</dict>
+</plist>
